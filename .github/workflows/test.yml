@@ -9,6 +9,6 @@ jobs:
         uses: actions/checkout@main
         
       - name: Say hello
-        uses: ../.github/actions/hello-world-docker-action@v1
+        uses: .github/actions/hello-world-docker-action@v1
         with:
           who-to-greet: '@octocat'
