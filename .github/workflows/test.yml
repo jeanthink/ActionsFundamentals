@@ -6,12 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout local action 
-        uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            .github
+        uses: actions/checkout@main
         
       - name: Say hello
-        uses: ./.github/actions/hello-world-docker-action@v1
+        uses: actions/hello-world-docker-action@v1
         with:
           who-to-greet: '@octocat'
