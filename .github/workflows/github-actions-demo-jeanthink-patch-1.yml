@@ -1,13 +1,9 @@
-name: GitHub Actions Demo (jeanthink-patch-1)
+name: GitHub Actions Demo (jeanthink-patch-1) 
 on:
   workflow_dispatch:
   push:
     branches: [ jeanthink-patch-1 ]
     paths-ignore: [.github/**]
-  pull_request:
-    branches: [ main ]
-  schedule:
-    - cron: '15 6 * * 0'
     
 jobs:
   Build:
