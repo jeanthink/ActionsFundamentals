@@ -1,7 +1,7 @@
 name: HiFriend
 on:
   push:
-    branches: [ jeanthink-patch-01 ]
+    branches: [ Test ]
   workflow_dispatch:
     
 jobs:
