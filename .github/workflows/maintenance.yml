@@ -1,0 +1,47 @@
+name: Maintenance 
+
+on: 
+    schedule:
+        - cron: '0 0 * * *' # Every day at midnight UTC
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Process open issues
+              uses: actions/github-script@v6
+              with:
+                  script: |
+                      const issues = await github.issues.listForRepo({
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          state: 'open',
+                      });
+                      const staleLabel = 'stale';
+                      const closeLabel = 'close';
+                      const staleDays = 7;
+                      const closeDays = 14;
+                      const staleDate = new Date();
+                      staleDate.setDate(staleDate.getDate() - staleDays);
+                      const closeDate = new Date();
+                      closeDate.setDate(closeDate.getDate() - closeDays);
+                      for (const issue of issues.data) {
+                          const lastUpdated = new Date(issue.updated_at);
+                          if (lastUpdated < closeDate) {
+                              await github.issues.addLabels({
+                                  owner: context.repo.owner,
+                                  repo: context.repo.repo,
+                                  issue_number: issue.number,
+                                  labels: [closeLabel],
+                              });
+                          } else if (lastUpdated < staleDate) {
+                              await github.issues.addLabels({
+                                  owner: context.repo.owner,
+                                  repo: context.repo.repo,
+                                  issue_number: issue.number,
+                                  labels: [staleLabel],
+                              });
+                          }
+                      }
+                  
